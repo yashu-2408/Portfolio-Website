@@ -12,43 +12,208 @@
 .contact-flex {
   display: flex;
   justify-content: space-between;
+  gap: 40px; /* Add gap between info and form */
 }
-.contact-flex h4 {
-  font-weight: 500;
-  margin: 0;
-  opacity: 0.6;
-}
+
+/* General style for all contact boxes for consistency */
 .contact-box {
   display: flex;
   flex-direction: column;
+  flex: 1; /* Allow boxes to grow and share space */
+  min-width: 280px; /* Minimum width before wrapping or shrinking too much */
 }
-.contact-flex p {
-  margin-top: 10px;
-  margin-bottom: 20px;
+
+.contact-info-box {
+  /* Specific styles if needed, otherwise defaults to .contact-box */
+  justify-content: flex-start; /* Align items to the top */
 }
-a.contact-social {
-  font-size: 25px;
-  border-bottom: 1px solid #ccc;
+
+.contact-form-box {
+  /* Specific styles if needed */
 }
-.contact-box h2 {
-  font-weight: 400;
-  font-size: 23px;
-  margin: 0;
-}
-.contact-box h2 > span {
-  color: var(--accentColor);
-}
-.contact-box h5 {
-  font-size: 20px;
+
+
+.contact-flex h4 {
   font-weight: 500;
-  line-height: 20px;
-  display: flex;
-  gap: 10px;
-  opacity: 0.5;
+  margin-top: 0; /* Reset margin for consistency */
+  margin-bottom: 15px; /* Space below subheadings */
+  opacity: 0.8; /* Slightly more visible */
+  font-size: 1.2rem; /* Consistent font size for subheadings */
+  color: var(--textColor, #ffffff);
 }
+
+.contact-info-box p {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.contact-info-box p a {
+  color: var(--accentColor, #00bcd4);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.contact-info-box p a:hover {
+  color: var(--accentColorHover, #0097a7);
+  text-decoration: underline;
+}
+
+
+.contact-separator {
+  height: 1px;
+  background-color: rgba(204, 204, 204, 0.2); /* Lighter separator */
+  margin: 20px 0;
+}
+
+.contact-social-links-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between social links */
+}
+
+a.contact-social {
+  font-size: 1.1rem; /* Adjusted font size */
+  border-bottom: 1px solid transparent; /* Transparent border initially */
+  padding-bottom: 3px;
+  color: var(--textColorSecondary, #bbbbbb);
+  transition: color 0.3s ease, border-bottom-color 0.3s ease;
+  display: inline-flex; /* For icon alignment */
+  align-items: center;
+  gap: 8px; /* Space between text and icon */
+}
+a.contact-social:hover {
+  color: var(--accentColor, #00bcd4);
+  border-bottom-color: var(--accentColor, #00bcd4);
+}
+a.contact-social svg { /* Target the icon specifically */
+  transition: transform 0.3s ease;
+}
+a.contact-social:hover svg {
+  transform: translateX(3px); /* Slight movement for icon */
+}
+
+
+/* Contact Form Styles */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: var(--textColorSecondary, #bbbbbb);
+  text-align: left;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+  background-color: var(--inputBackgroundColor); /* Use CSS variable */
+  border: 1px solid var(--inputBorderColor);    /* Use CSS variable */
+  border-radius: 5px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  color: var(--textColor, #ffffff);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  width: 100%; /* Ensure full width within the form-group */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+  background-color: var(--inputBackgroundColorFocus); /* Use CSS variable */
+  border-color: var(--accentColor); /* Keep accent for focus */
+  outline: none; /* Remove default browser outline */
+}
+
+.form-group textarea {
+  resize: vertical; /* Allow vertical resize, disable horizontal */
+  min-height: 100px;
+}
+
+.submit-button {
+  background-color: var(--accentColor, #00bcd4);
+  color: var(--backgroundColor, #121212); /* Text color that contrasts with accent */
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: var(--accentColorHover, #0097a7); /* Darker accent on hover */
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.status-message {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.status-message.success {
+  background-color: rgba(40, 167, 69, 0.2); /* Greenish, subtle */
+  color: #28a745; /* Success green */
+}
+
+.status-message.error {
+  background-color: rgba(220, 53, 69, 0.2); /* Reddish, subtle */
+  color: #dc3545; /* Error red */
+}
+
+/* Footer specific to contact section */
+.contact-footer {
+  margin-top: 60px; /* Space above the footer */
+  text-align: center; /* Center the footer content */
+  border-top: 1px solid rgba(204, 204, 204, 0.1); /* Subtle top border */
+  padding-top: 30px;
+}
+
+.contact-footer h2 {
+  font-weight: 400;
+  font-size: 1.3rem; /* Adjusted size */
+  margin: 0 0 10px 0; /* Margin below h2 */
+  color: var(--textColor, #ffffff);
+}
+
+.contact-footer h2 > span {
+  color: var(--accentColor, #00bcd4);
+}
+
+.contact-footer h5 {
+  font-size: 1rem; /* Adjusted size */
+  font-weight: 500;
+  line-height: 1.5;
+  display: flex;
+  justify-content: center; /* Center the copyright info */
+  align-items: center; /* Align icon and text */
+  gap: 8px;
+  opacity: 0.6;
+  color: var(--textColorSecondary, #bbbbbb);
+}
+
 @media only screen and (max-width: 1600px) {
   .contact-section h3 {
-    font-size: 50px;
+    font-size: 45px; /* Adjusted from 50px */
   }
   .contact-box h2 {
     font-size: 20px;

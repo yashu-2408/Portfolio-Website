@@ -8,8 +8,40 @@
   line-height: 1.5;
   scroll-behavior: smooth;
   color-scheme: light dark;
-  color: #eae5ec;
-  background-color: var(--backgroundColor);
+  /* Base theme (dark) variable definitions */
+  --backgroundColor: #0b080c;
+  --textColor: #eae5ec;
+  --accentColor: #c2a4ff;
+  --accentColorHover: #a885e0; /* For hover on accent */
+  --accentColorOpacity: rgba(194, 164, 255, 0.1); /* For subtle backgrounds like tags */
+  --cardBackgroundColor: #1e1e1e; /* Used in Certifications, can be general */
+  --borderColor: #363636; /* Used in Work project cards */
+  --textColorSecondary: #bbbbbb; /* For less important text */
+  --accentColorRGB: 194, 164, 255; /* For rgba() usage with accent */
+
+
+  /* Light Theme variable definitions (will be applied via body.light-theme) */
+  --backgroundColor-light: #f4f6f8; /* Light grey background */
+  --textColor-light: #212529;       /* Dark text color */
+  --accentColor-light: #673ab7;     /* A darker, more vibrant purple for light theme */
+  --accentColorHover-light: #512da8;
+  --accentColorOpacity-light: rgba(103, 58, 183, 0.1);
+  --cardBackgroundColor-light: #ffffff;
+  --borderColor-light: #e0e0e0;
+  --textColorSecondary-light: #555555;
+  --accentColorRGB-light: 103, 58, 183;
+
+  /* Input field specific variables */
+  --inputBackgroundColor: rgba(255, 255, 255, 0.05);
+  --inputBackgroundColorFocus: rgba(255, 255, 255, 0.08);
+  --inputBorderColor: rgba(255, 255, 255, 0.2);
+  --inputBackgroundColor-light: rgba(0, 0, 0, 0.03);
+  --inputBackgroundColorFocus-light: rgba(0, 0, 0, 0.05);
+  --inputBorderColor-light: rgba(0, 0, 0, 0.15);
+
+
+  color: var(--textColor); /* Use the variable for global text color */
+  background-color: var(--backgroundColor); /* Use the variable for global background */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -18,11 +50,33 @@
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
-  --accentColor: #c2a4ff;
-  --backgroundColor: #0b080c;
-  --vh: 100vh;
-  --vh: 100svh;
+  /* --accentColor: #c2a4ff; -- Defined above */
+  /* --backgroundColor: #0b080c; -- Defined above */
+  --vh: 100vh; /* Fallback */
+  --vh: 100svh; /* Modern viewport height */
 }
+
+/* Apply light theme variables when .light-theme class is present on body */
+body.light-theme {
+  --backgroundColor: var(--backgroundColor-light);
+  --textColor: var(--textColor-light);
+  --accentColor: var(--accentColor-light);
+  --accentColorHover: var(--accentColorHover-light);
+  --accentColorOpacity: var(--accentColorOpacity-light);
+  --cardBackgroundColor: var(--cardBackgroundColor-light);
+  --borderColor: var(--borderColor-light);
+  --textColorSecondary: var(--textColorSecondary-light);
+  --accentColorRGB: var(--accentColorRGB-light);
+
+  --inputBackgroundColor: var(--inputBackgroundColor-light);
+  --inputBackgroundColorFocus: var(--inputBackgroundColorFocus-light);
+  --inputBorderColor: var(--inputBorderColor-light);
+
+  /* Specific overrides for elements that might not use variables directly, if any */
+  /* For example, if some elements have hardcoded colors, they'd need to be overridden here. */
+  /* However, the goal is to rely on the CSS variables above. */
+}
+
 h1,
 h2,
 h3,
@@ -58,7 +112,7 @@ main {
 body {
   margin: 0;
   height: auto;
-  background-color: #000;
+  /* background-color: #000; -- This will now be controlled by var(--backgroundColor) on :root or body */
   flex-grow: 1;
   --cWidth: calc(100% - 30px);
   --cMaxWidth: 1920px;

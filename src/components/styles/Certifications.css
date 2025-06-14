@@ -1,0 +1,134 @@
+/* Certifications Section Styling */
+.certifications-section {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: var(--backgroundColor, #121212); /* Or a slightly different shade */
+  color: var(--textColor, #ffffff);
+  overflow: hidden; /* Prevent horizontal scrollbar on the page itself */
+}
+
+.certifications-section .section-title {
+  font-size: 3rem;
+  color: var(--accentColor, #00bcd4);
+  margin-bottom: 50px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.certifications-carousel-container {
+  max-width: 100%; /* Ensure it doesn't overflow its parent */
+  margin: 0 auto;
+}
+
+.certifications-carousel {
+  display: flex;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  scroll-snap-type: x mandatory; /* Enable snap scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  padding-bottom: 20px; /* Space for scrollbar if visible, and aesthetic */
+  gap: 20px; /* Space between items */
+}
+
+/* Hide scrollbar for a cleaner look, but ensure accessibility */
+.certifications-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.certifications-carousel::-webkit-scrollbar-track {
+  background: var(--cardBackgroundColor, #2c2c2c); /* Use variable, fallback for safety */
+  border-radius: 4px;
+}
+
+.certifications-carousel::-webkit-scrollbar-thumb {
+  background: var(--accentColor, #00bcd4);
+  border-radius: 4px;
+}
+
+.certifications-carousel::-webkit-scrollbar-thumb:hover {
+  background: var(--accentColorHover, #0097a7); /* Slightly darker accent for hover */
+}
+
+
+.certification-item {
+  flex: 0 0 auto; /* Prevent items from shrinking, allow them to be their natural width */
+  width: 300px; /* Fixed width for each certification item, adjust as needed */
+  scroll-snap-align: center; /* Snap items to the center */
+  scroll-snap-stop: always; /* Ensure it always snaps */
+}
+
+.certification-card {
+  background-color: var(--cardBackgroundColor, #1e1e1e); /* Slightly lighter than section bg */
+  padding: 30px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  height: 150px; /* Fixed height for cards */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.certification-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(var(--accentColorRGB, 0, 188, 212), 0.3); /* Shadow with accent color */
+}
+
+.certification-icon { /* Optional: if you add icons later */
+  width: 50px;
+  height: 50px;
+  margin-bottom: 15px;
+  /* filter: grayscale(1) brightness(1.5) contrast(0.5); Apply if icons are too colorful */
+}
+
+.certification-name {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--textColor, #ffffff);
+  margin: 0;
+}
+
+.carousel-navigation-hint {
+  margin-top: 30px;
+  font-size: 0.9rem;
+  color: #aaa; /* Subtler text color */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .certifications-section .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+  .certification-item {
+    width: 250px; /* Slightly smaller cards on tablets */
+  }
+  .certification-card {
+    height: 130px;
+  }
+  .certification-name {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .certifications-section .section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .certification-item {
+    width: 80vw; /* Wider cards on mobile, one primarily visible */
+    max-width: 220px; /* Max width for very small screens */
+  }
+   .certification-card {
+    height: 120px;
+    padding: 20px 15px;
+  }
+  .certification-name {
+    font-size: 1rem;
+  }
+  .certifications-carousel {
+    gap: 15px;
+  }
+}

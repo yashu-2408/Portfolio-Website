@@ -12,22 +12,30 @@ import {
 } from "@react-three/rapier";
 
 const textureLoader = new THREE.TextureLoader();
+// Vipul's skills
 const imageUrls = [
-  "/images/react2.webp",
-  "/images/next2.webp",
-  "/images/node2.webp",
-  "/images/express.webp",
-  "/images/mongo.webp",
-  "/images/mysql.webp",
-  "/images/typescript.webp",
-  "/images/javascript.webp",
+  "/images/logos/cpp.png",
+  "/images/logos/python.png",
+  "/images/logos/sql.png",
+  "/images/logos/react.png", // Assuming react2.webp is a suitable React logo, or replace path
+  "/images/logos/django.png",
+  "/images/logos/flask.png",
+  "/images/logos/firebase.png",
+  "/images/logos/supabase.png",
+  "/images/logos/github.png",
 ];
 const textures = imageUrls.map((url) => textureLoader.load(url));
 
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
 
-const spheres = [...Array(30)].map(() => ({
-  scale: [0.7, 1, 0.8, 1, 1][Math.floor(Math.random() * 5)],
+// Adjusted sphere count to be a multiple of skills (e.g., 9 skills * 2 = 18 spheres)
+// This provides a better representation than a large random number.
+const numSkills = imageUrls.length;
+const spheresPerSkill = 2; // Each skill logo will appear this many times
+const totalSpheres = numSkills * spheresPerSkill;
+
+const spheres = [...Array(totalSpheres)].map(() => ({
+  scale: [0.7, 0.8, 0.9, 1, 1.1][Math.floor(Math.random() * 5)], // Slightly adjusted scale variation
 }));
 
 type SphereProps = {

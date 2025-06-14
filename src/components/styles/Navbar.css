@@ -26,10 +26,15 @@
 .header ul li {
   margin-left: 0px;
   letter-spacing: 1px;
-  color: #ccc;
+  color: var(--textColorSecondary, #ccc); /* Use variable */
   font-weight: 600;
   cursor: pointer;
+  transition: color 0.3s ease; /* Added transition for smooth color change */
 }
+/* Assuming the global a:hover from index.css handles the hover color to var(--accentColor) */
+/* If li itself is the link and not an <a> tag inside it, this would be: */
+/* .header ul li:hover { color: var(--accentColor); } */
+
 .navbar-connect {
   position: absolute;
   display: none;
@@ -55,7 +60,7 @@
     font-size: 14px;
   }
   .header ul li {
-    color: #eae5ec;
+    color: var(--textColor, #eae5ec); /* Use variable */
   }
   .navbar-title {
     font-size: 16px;

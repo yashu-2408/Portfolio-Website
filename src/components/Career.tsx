@@ -15,15 +15,13 @@ const Career = () => {
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Back End Developer</h4>
+                <h5>The Detailing Hustler</h5>
               </div>
-              <h3>20XX</h3>
+              <h3>Aug 2023 - Jan 2024</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Led API optimization and integrated Firebase, resulting in a 30% performance boost. (Remote, Canada)
             </p>
           </div>
           <div className="career-info-box">
@@ -46,7 +44,7 @@ const Career = () => {
                 <h4>Position In Company</h4>
                 <h5>Company Name</h5>
               </div>
-              <h3>NOW</h3>
+              <h3>20XX</h3>
             </div>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim

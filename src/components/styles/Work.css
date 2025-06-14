@@ -33,11 +33,18 @@
   flex-direction: column;
   width: 600px;
   box-sizing: border-box;
-  border-right: 1px solid #363636;
+  border-right: 1px solid var(--borderColor, #363636); /* Use variable */
   flex-shrink: 0;
-  gap: 50px;
-  justify-content: start;
+  gap: 30px; /* Adjusted gap for more content */
+  justify-content: space-between; /* To push image and info apart if needed or use flex-grow on info */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; /* For hover effects */
 }
+
+.work-box:hover {
+  transform: translateY(-5px) scale(1.01); /* Subtle lift and scale */
+  box-shadow: 0px 10px 20px rgba(0,0,0,0.1), 0px 3px 6px rgba(0,0,0,0.08); /* Enhanced shadow on hover */
+}
+
 .work-flex .work-box:nth-child(even) {
   flex-direction: column-reverse;
 }
@@ -46,7 +53,7 @@
   content: "";
   width: calc(50000vw);
   height: 1px;
-  background-color: #363636;
+  background-color: var(--borderColor, #363636); /* Use variable */
   position: absolute;
   left: 50%;
   top: 0;
@@ -76,15 +83,63 @@
   font-weight: 400;
   margin: 0;
 }
-.work-info p {
+.work-info p { /* This is for category under project title */
   font-weight: 200;
-  color: #adacac;
+  color: var(--textColorSecondary, #adacac); /* Use variable */
   margin: 0;
   margin-top: 3px;
 }
 .work-info > p {
   width: 90%;
 }
+
+/* New styles for project details */
+.work-description {
+  font-size: 14px; /* Or match existing p font-size if preferred */
+  color: var(--textColorSecondary, #c0c0c0); /* Use variable */
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.work-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.tech-tag {
+  background-color: var(--accentColorOpacity);
+  color: var(--accentColor);
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.work-links {
+  display: flex;
+  gap: 15px;
+  margin-top: auto; /* Pushes links to the bottom of .work-info if it's a flex column */
+}
+
+.work-links .work-link { /* Specific styling for Demo/GitHub links */
+  color: var(--textColor);
+  background-color: var(--cardBackgroundColor, #333); /* Use variable */
+  padding: 8px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.work-links .work-link:hover {
+  background-color: var(--accentColor);
+  color: var(--backgroundColor);
+}
+/* End of new styles */
+
 .work-image {
   display: flex;
   width: 100%;
@@ -93,7 +148,7 @@
 .work-image-in {
   position: relative;
 }
-.work-link {
+.work-image-link-icon { /* Renamed to avoid clash, this is for the icon on image hover */
   position: absolute;
   bottom: 10px;
   right: 10px;
@@ -113,7 +168,7 @@
 .work-image a:hover {
   color: inherit;
 }
-.work-image a:hover .work-link {
+.work-image a:hover .work-image-link-icon { /* Updated class name */
   opacity: 1;
 }
 .work-image video {
@@ -122,15 +177,31 @@
   height: 100%;
   top: 0;
   left: 0;
-  background-color: #000;
+  background-color: var(--backgroundColor, #000); /* Use variable */
   object-fit: cover;
 }
-.work-image img {
+.work-image img,
+.work-image video { /* Apply common styles to both img and video */
+  display: block; /* Ensure they are block elements */
   max-width: 100%;
-  max-height: 350px;
+  max-height: 350px; /* Matches existing max-height for img */
+  width: auto; /* Maintain aspect ratio */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the area, cropping if necessary */
+  border-radius: 8px; /* Optional: if images/videos should have rounded corners */
 }
+
+.work-video-preview {
+  /* Any specific styles for video if different from img, otherwise common styles above apply */
+}
+
+.work-image-main {
+  /* Any specific styles for image if different from video, otherwise common styles above apply */
+}
+
 @media only screen and (max-height: 900px) {
-  .work-image img {
+  .work-image img,
+  .work-image video {
     max-height: 250px;
   }
   .work-box {
@@ -177,7 +248,8 @@
 }
 
 @media only screen and (max-height: 650px) {
-  .work-image img {
+  .work-image img,
+  .work-image video {
     max-height: 200px;
   }
   .work-section h2 {
@@ -186,6 +258,17 @@
   }
   .work-box {
     gap: 20px;
+  }
+  .work-description {
+    font-size: 13px; /* Adjust font size for smaller screens */
+  }
+  .tech-tag {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+  .work-links .work-link {
+    font-size: 13px;
+    padding: 7px 12px;
   }
 }
 /* @media only screen and (max-width: 900px) {
