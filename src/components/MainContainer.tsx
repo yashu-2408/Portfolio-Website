@@ -8,7 +8,7 @@ import Navbar from "./Navbar";
 import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
-import setSplitText from "./utils/splitText";
+// import setSplitText from "./utils/splitText"; // Removed as setSplitText is now empty
 
 const TechStack = lazy(() => import("./TechStack"));
 const Certifications = lazy(() => import("./Certifications"));
@@ -20,10 +20,10 @@ const MainContainer = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const resizeHandler = () => {
-      setSplitText();
+      // setSplitText(); // Removed as setSplitText is now empty
       setIsDesktopView(window.innerWidth > 1024);
     };
-    resizeHandler();
+    resizeHandler(); // Call it once initially
     window.addEventListener("resize", resizeHandler);
     return () => {
       window.removeEventListener("resize", resizeHandler);

@@ -86,7 +86,8 @@ h6 {
   font-family: "Geist", sans-serif;
 }
 body {
-  overflow: hidden;
+  /* overflow: hidden; Replaced by overflow-x: hidden due to ScrollSmoother removal */
+  overflow-x: hidden; /* Allow vertical scroll, prevent horizontal */
 }
 a {
   color: inherit;

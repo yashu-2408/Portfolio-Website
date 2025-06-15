@@ -197,7 +197,40 @@
   font-weight: 300;
   color: var(--accentColor);
   margin: 0;
+  /* For CSS typewriter - assuming the text is "Turning clean code into powerful products" (42 chars) */
+  /* This will be applied if the hero-tagline class is on this h3 */
 }
+
+/* CSS Typewriter animation for .hero-tagline */
+.hero-tagline {
+  display: inline-block; /* Or block, depending on layout needs */
+  overflow: hidden; /* To hide text until animation reveals it */
+  white-space: nowrap; /* Keep text on a single line for width animation */
+  border-right: .1em solid var(--accentColor); /* Blinking cursor effect */
+  letter-spacing: .0em; /* Adjust as needed for font */
+  /* Number of characters. Update this if tagline text changes. */
+  /* "Turning clean code into powerful products" is 42 characters (including spaces) */
+  /* Let's use a variable for character count for easier maintenance if text changes. */
+  /* This needs to be calculated based on the actual text content. */
+  /* For now, an approximate average character animation: */
+  animation:
+    typing 3s steps(42, end) 0.5s 1 normal both, /* 0.5s delay before typing starts */
+    blink-caret .75s step-end infinite;
+}
+
+/* Typing animation */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; } /* Animates width from 0 to 100% of its content */
+}
+
+/* Blinking cursor animation */
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--accentColor); }
+}
+
+
 .landing-info h2 {
   margin: 0;
   margin-top: -20px;

@@ -1,10 +1,10 @@
+import { useEffect, useRef } from 'react'; // Removed React import
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(useGSAP);
+// ScrollTrigger is globally registered in splitText.ts
+// gsap.registerPlugin(ScrollTrigger); // Not needed here if globally registered
 
 const projects = [
   {
@@ -51,108 +51,139 @@ const projects = [
 ];
 
 const Work = () => {
-  useGSAP(() => {
+  const workSectionRef = useRef<HTMLDivElement>(null);
+  const workFlexRef = useRef<HTMLDivElement>(null);
+  const workTitleRef = useRef<HTMLHeadingElement>(null);
+
+  // Horizontal scroll animation
+  useEffect(() => {
+    const workSectionElement = workSectionRef.current;
+    const workFlexElement = workFlexRef.current;
+
+    if (!workSectionElement || !workFlexElement) {
+      // If refs are not yet available, do nothing.
+      // This might happen on initial render before refs are assigned.
+      return;
+    }
+
     let translateX: number = 0;
+    let timeline: gsap.core.Timeline | undefined;
 
-    function setTranslateX() {
-      const boxElements = document.getElementsByClassName("work-box");
-      if (boxElements.length === 0) return;
+    // Pass guarded elements as parameters to ensure TypeScript recognizes their non-null status
+    function setTranslateX(currentWorkFlexElement: HTMLDivElement, currentWorkSectionElement: HTMLDivElement) {
+      const boxElements = document.getElementsByClassName("work-box") as HTMLCollectionOf<HTMLElement>;
+      if (boxElements.length === 0) {
+        translateX = 0;
+        return;
+      }
 
-      const box = boxElements[0];
-      const workContainer = document.querySelector(".work-container");
-      if (!workContainer) return;
+      const workContainer = currentWorkSectionElement.querySelector(".work-container");
+      if (!workContainer || !currentWorkFlexElement.parentElement) {
+        translateX = 0;
+        return;
+      }
 
-      const rectLeft = workContainer.getBoundingClientRect().left;
-      const rect = box.getBoundingClientRect();
-      const parentWidth = box.parentElement!.getBoundingClientRect().width;
-      let padding: number =
-        parseInt(window.getComputedStyle(box).paddingLeft) + parseInt(window.getComputedStyle(box).paddingRight); // Considering both left and right padding
-
-      // Calculate total width of all boxes
+      const parentWidth = currentWorkFlexElement.parentElement.getBoundingClientRect().width;
       let totalWidthOfBoxes = 0;
       for(let i=0; i < boxElements.length; i++) {
         totalWidthOfBoxes += boxElements[i].getBoundingClientRect().width;
       }
 
-      // translateX = totalWidthOfBoxes - parentWidth + rectLeft; // Adjusted calculation
-      // Simplified: scroll until the end of the last box is visible
-      translateX = totalWidthOfBoxes - parentWidth + (boxElements.length > 0 ? parseFloat(window.getComputedStyle(boxElements[0].parentElement!).paddingLeft) : 0) ;
+      translateX = totalWidthOfBoxes - parentWidth + parseFloat(window.getComputedStyle(currentWorkFlexElement).paddingLeft);
 
-
-      if (translateX < 0) translateX = 0; // Ensure translateX is not negative
+      if (translateX < 0) translateX = 0;
     }
 
-    // Debounce or delay setTranslateX if window resize impacts it
     const handleResize = () => {
-      setTranslateX();
-      // Update ScrollTrigger's end value if needed
-      ScrollTrigger.getById("work")?.kill(); // Kill existing before re-initializing
       if (timeline) timeline.kill();
-      createTimeline();
+      ScrollTrigger.getById("work")?.kill();
+      // Ensure elements are still non-null before creating timeline again
+      if (workFlexElement && workSectionElement) {
+        createTimeline(workFlexElement, workSectionElement);
+      }
     };
 
-    let timeline: gsap.core.Timeline;
-
-    function createTimeline() {
-      setTranslateX(); // Recalculate translateX
+    function createTimeline(currentWorkFlexElement: HTMLDivElement, currentWorkSectionElement: HTMLDivElement) {
+      setTranslateX(currentWorkFlexElement, currentWorkSectionElement);
       timeline = gsap.timeline({
         scrollTrigger: {
-          trigger: ".work-section",
+          trigger: currentWorkSectionElement,
           start: "top top",
           end: `+=${translateX}`,
           scrub: true,
           pin: true,
           id: "work",
-          invalidateOnRefresh: true, // Recalculates values on resize/refresh
+          invalidateOnRefresh: true,
         },
       });
 
-      timeline.to(".work-flex", {
+      timeline.to(currentWorkFlexElement, {
         x: -translateX,
         ease: "none",
       });
     }
 
-    createTimeline(); // Initial timeline creation
+    // Initial creation, using the guarded workFlexElement and workSectionElement
+    createTimeline(workFlexElement, workSectionElement);
 
     window.addEventListener('resize', handleResize);
 
-    // Clean up
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (timeline) timeline.kill();
+      if (timeline) {
+        const st = timeline.scrollTrigger; // Get ScrollTrigger from timeline
+        if (st) st.kill(); // Kill ScrollTrigger
+        timeline.kill(); // Kill timeline
+      }
+      // Fallback for safety, though above should handle it.
       ScrollTrigger.getById("work")?.kill();
     };
-  }, {dependencies: [projects]}); // Rerun if projects array changes
+  }, [projects]);
 
   // Parallax for the section title
-  useGSAP(() => {
-    const workSection = document.querySelector(".work-section");
-    // Targeting h2 within .work-container to be specific
-    const workTitle = document.querySelector(".work-container > h2");
+  useEffect(() => {
+    const workSectionElement = workSectionRef.current;
+    const workTitleElement = workTitleRef.current;
+    let titleTween: gsap.core.Tween | undefined;
 
-    if (workTitle && workSection) {
-      gsap.to(workTitle, {
-        yPercent: -30, // Move title up by 30% of its height
+    // Guard refs for title parallax animation
+    if (workTitleElement && workSectionElement) {
+      titleTween = gsap.to(workTitleElement, { // workTitleElement is HTMLHeadingElement, safe
+        yPercent: -30,
         ease: "none",
         scrollTrigger: {
-          trigger: workSection, // Trigger based on the whole work-section
-          start: "top center+=10%", // When top of work-section is a bit past center of viewport
-          end: "bottom top",    // When bottom of work-section hits top of viewport
+          trigger: workSectionElement, // workSectionElement is HTMLDivElement, safe
+          start: "top center+=10%",
+          end: "bottom top",
           scrub: true,
           invalidateOnRefresh: true,
         },
       });
     }
-  }, []); // Empty dependency array, runs once on mount
+    return () => {
+      if (titleTween) {
+        titleTween.kill();
+        const st = titleTween.scrollTrigger;
+        if (st) {
+            st.kill();
+        } else if (workSectionElement) { // Add null check for workSectionElement
+            ScrollTrigger.getAll().forEach(instance => {
+                if (instance.trigger === workSectionElement && instance.animation === titleTween) {
+                    instance.kill();
+                }
+            });
+        }
+      }
+    };
+  }, []);
 
   return (
-    <div className="work-section" id="work">
+    <div className="work-section" id="work" ref={workSectionRef}>
       <div className="work-container section-container">
-        <h2>
+        <h2 ref={workTitleRef}>
           My <span>Work</span>
         </h2>
-        <div className="work-flex">
+        <div className="work-flex" ref={workFlexRef}>
           {projects.map((project, index) => (
             <div className="work-box" key={project.id}>
               <div className="work-info">
